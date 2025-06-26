@@ -30,6 +30,7 @@ import './App.css'
 // A new component to handle layout, so BottomNavigation is not shown on the booking screen.
 const AppLayout = () => {
   const location = useLocation();
+  console.log('hi')
   // Hide BottomNavigation on specific pages like the booking details screen
   const hideNavOnRoutes = ['/booking', '/login', '/register', '/order', '/profile', '/payment', '/settings', '/rate', '/help', '/about'];
   const showBottomNav = !hideNavOnRoutes.some(path => location.pathname.startsWith(path));
