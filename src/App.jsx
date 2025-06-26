@@ -1,102 +1,90 @@
 import { useState } from 'react'
-import InstallPrompt from './components/InstallPrompt'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { AnimatePresence } from 'framer-motion'
+
+// Import screen components
+import SplashScreen from './screens/SplashScreen'
+import HomeScreen from './screens/HomeScreen'
+import MapScreen from './screens/MapScreen'
+import BookingScreen from './screens/BookingScreen'
+import NotificationScreen from './screens/NotificationScreen'
+import MenuScreen from './screens/MenuScreen'
+import LoginScreen from './screens/LoginScreen'
+import RegisterScreen from './screens/RegisterScreen'
+import OrderScreen from './screens/OrderScreen'
+import SuccessScreen from './screens/SuccessScreen'
+import MyOrdersScreen from './screens/MyOrdersScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import PaymentScreen from './screens/PaymentScreen'
+import SettingsScreen from './screens/SettingsScreen'
+import RateScreen from './screens/RateScreen'
+import HelpScreen from './screens/HelpScreen'
+import AboutScreen from './screens/AboutScreen'
+
+// Import components
+import BottomNavigation from './components/BottomNavigation'
+
 import './App.css'
 
+// A new component to handle layout, so BottomNavigation is not shown on the booking screen.
+const AppLayout = () => {
+  const location = useLocation();
+  // Hide BottomNavigation on specific pages like the booking details screen
+  const hideNavOnRoutes = ['/booking', '/login', '/register', '/order', '/profile', '/payment', '/settings', '/rate', '/help', '/about'];
+  const showBottomNav = !hideNavOnRoutes.some(path => location.pathname.startsWith(path));
+  return (
+    // This is the key change: a flex column layout that fills the screen.
+    <div className="h-screen w-screen flex flex-col font-sans">
+      {/* This container will grow to fill all available space */}
+      <main className="flex-grow overflow-y-auto relative">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            <Route path="/" element={<Navigate to="/map" replace />} />
+            <Route path="/home" element={<HomeScreen />} />
+            <Route path="/map" element={<MapScreen />} />
+            <Route path="/booking" element={<BookingScreen />} />
+            <Route path="/login" element={<LoginScreen />} />
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/order" element={<OrderScreen />} />
+            <Route path="/success" element={<SuccessScreen />} />
+            <Route path="/my-orders" element={<MyOrdersScreen />} />
+            <Route path="/notifications" element={<NotificationScreen />} />
+            <Route path="/menu" element={<MenuScreen />} />
+            <Route path="/profile" element={<ProfileScreen />} />
+            <Route path="/payment" element={<PaymentScreen />} />
+            <Route path="/settings" element={<SettingsScreen />} />
+            <Route path="/rate" element={<RateScreen />} />
+            <Route path="/help" element={<HelpScreen />} />
+            <Route path="/about" element={<AboutScreen />} />
+          </Routes>
+        </AnimatePresence>
+      </main>
+
+      {/* The navigation no longer needs to be 'fixed' */}
+      {showBottomNav && <BottomNavigation />}
+    </div>
+  );
+};
+
+
+// Main App Component
 function App() {
-  const [activeTab, setActiveTab] = useState('home')
+  const [showSplash, setShowSplash] = useState(true)
 
-  const tabs = [
-    { id: 'home', label: 'Home', icon: '🏠' },
-    { id: 'search', label: 'Search', icon: '🔍' },
-    { id: 'favorites', label: 'Favorites', icon: '❤️' },
-    { id: 'profile', label: 'Profile', icon: '👤' }
-  ]
-
-  const demoCards = [
-    { id: 1, title: 'Feature 1', description: 'This is a demo feature card', icon: '✨' },
-    { id: 2, title: 'Feature 2', description: 'Another amazing feature', icon: '🚀' },
-    { id: 3, title: 'Feature 3', description: 'Mobile-optimized experience', icon: '📱' },
-    { id: 4, title: 'Feature 4', description: 'Progressive Web App demo', icon: '⚡' }
-  ]
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'home':
-        return (
-          <div className="content">
-            <div className="header">
-              <h1>Mobile PWA Demo</h1>
-              <p>Experience the power of Progressive Web Apps</p>
-            </div>
-            <div className="cards-grid">
-              {demoCards.map(card => (
-                <div key={card.id} className="card">
-                  <div className="card-icon">{card.icon}</div>
-                  <h3>{card.title}</h3>
-                  <p>{card.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )
-      case 'search':
-        return (
-          <div className="content">
-            <div className="search-container">
-              <input type="text" placeholder="Search features..." className="search-input" />
-              <div className="search-results">
-                <p>Search functionality would go here</p>
-              </div>
-            </div>
-          </div>
-        )
-      case 'favorites':
-        return (
-          <div className="content">
-            <h2>Favorites</h2>
-            <div className="favorites-list">
-              <p>Your favorite items will appear here</p>
-            </div>
-          </div>
-        )
-      case 'profile':
-        return (
-          <div className="content">
-            <div className="profile-header">
-              <div className="profile-avatar">👤</div>
-              <h2>User Profile</h2>
-            </div>
-            <div className="profile-info">
-              <p>Profile settings and preferences</p>
-            </div>
-          </div>
-        )
-      default:
-        return null
-    }
+  const handleSplashComplete = () => {
+    setShowSplash(false)
   }
 
+  // Show splash screen first
+  if (showSplash) {
+    return <SplashScreen onComplete={handleSplashComplete} />
+  }
+
+  // Main app with router
   return (
-    <div className="app">
-      <div className="main-content">
-        {renderContent()}
-      </div>
-
-      <nav className="bottom-nav">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            <span className="nav-icon">{tab.icon}</span>
-            <span className="nav-label">{tab.label}</span>
-          </button>
-        ))}
-      </nav>
-
-      <InstallPrompt />
-    </div>
+    <Router>
+      <AppLayout />
+    </Router>
   )
 }
 
