@@ -75,7 +75,7 @@ const PaymentScreen = () => {
                         </button>
                     </div>
                     <div className="text-3xl font-bold text-gray-800 mb-4">
-                        {showBalance ? 'Rp 125,000' : 'Rp ••••••'}
+                        {showBalance ? 'SR 125,000' : 'SR ••••••'}
                     </div>
                     <button className="bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold flex items-center space-x-2">
                         <Plus className="w-5 h-5" />
@@ -162,7 +162,7 @@ const PaymentScreen = () => {
                                 </div>
                                 <div className={`font-bold ${transaction.type === 'payment' ? 'text-red-600' : 'text-green-600'
                                     }`}>
-                                    {transaction.type === 'payment' ? '-' : '+'}Rp {transaction.amount.toLocaleString()}
+                                    {transaction.type === 'payment' ? '-' : '+'}SR {transaction.amount.toLocaleString()}
                                 </div>
                             </div>
                         ))}

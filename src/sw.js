@@ -7,7 +7,7 @@ const urlsToCache = [
   '/src/App.jsx',
   '/src/App.css',
   '/src/index.css',
-  '/pwa-icon.svg'
+  '/logo.svg'
 ];
 
 self.addEventListener('install', (event) => {

@@ -1,13 +1,7 @@
-import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 
 const SplashScreen = ({ onComplete }) => {
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            onComplete()
-        }, 3000)
-        return () => clearTimeout(timer)
-    }, [onComplete])
+    // Removed auto-redirect timer - now waits for user interaction
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center px-6 text-white relative overflow-hidden" style={{ backgroundColor: '#5ba6e3' }}>

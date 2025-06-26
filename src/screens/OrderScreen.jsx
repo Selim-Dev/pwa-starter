@@ -66,11 +66,11 @@ const OrderScreen = () => {
         bookingId: '012089',
         date: 'Sunday, 11 Aug 2022',
         time: '03.00 - 04.00 PM',
-        carType: { name: 'Pajero Sport 2019', price: 'Rp.75.000' },
-        serviceType: { name: 'Special Service', price: 'Rp.30.000' },
-        tax: 'Rp.5.000',
+        carType: { name: 'Pajero Sport 2019', price: 'SR.75.000' },
+        serviceType: { name: 'Special Service', price: 'SR.30.000' },
+        tax: 'SR.5.000',
         voucher: '50%',
-        totalPrice: 'Rp. 55.000'
+        totalPrice: 'SR. 55.000'
     };
 
     const handleConfirmBooking = () => {

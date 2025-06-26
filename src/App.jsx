@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 
 // Import screen components
 import SplashScreen from './screens/SplashScreen'
+import PWADownloadScreen from './screens/PWADownloadScreen'
 import HomeScreen from './screens/HomeScreen'
 import MapScreen from './screens/MapScreen'
 import BookingScreen from './screens/BookingScreen'
@@ -39,7 +40,7 @@ const AppLayout = () => {
       <main className="flex-grow overflow-y-auto relative">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<Navigate to="/map" replace />} />
+            <Route path="/" element={<Navigate to="/home" replace />} />
             <Route path="/home" element={<HomeScreen />} />
             <Route path="/map" element={<MapScreen />} />
             <Route path="/booking" element={<BookingScreen />} />
@@ -70,14 +71,59 @@ const AppLayout = () => {
 // Main App Component
 function App() {
   const [showSplash, setShowSplash] = useState(true)
+  const [showPWAGuide, setShowPWAGuide] = useState(false)
+  const [isLargeScreen, setIsLargeScreen] = useState(false)
+
+  // Check screen size and PWA guide preference on mount
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLargeScreen(window.innerWidth > 1024)
+    }
+
+    const checkPWAGuidePreference = () => {
+      const pwaGuideShown = localStorage.getItem('pwaGuideShown')
+      // Check if URL has ?resetpwa parameter to force show PWA guide
+      const urlParams = new URLSearchParams(window.location.search)
+      const forceShowPWA = urlParams.has('resetpwa')
+
+      if (forceShowPWA) {
+        localStorage.removeItem('pwaGuideShown')
+        return false
+      }
+
+      return pwaGuideShown === 'true'
+    }
+
+    checkScreenSize()
+
+    // If PWA guide was already shown, skip it
+    if (checkPWAGuidePreference()) {
+      setShowPWAGuide(false)
+    } else {
+      // Show PWA guide for first-time users on any device
+      setShowPWAGuide(true)
+    }
+
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
 
   const handleSplashComplete = () => {
     setShowSplash(false)
   }
 
-  // Show splash screen first
-  if (showSplash) {
+  const handlePWAGuideComplete = () => {
+    setShowPWAGuide(false)
+  }
+
+  // Show splash screen first on mobile devices (waits for user interaction)
+  if (showSplash && !isLargeScreen) {
     return <SplashScreen onComplete={handleSplashComplete} />
+  }
+
+  // Show PWA installation guide for first-time users (both mobile and desktop)
+  if (showPWAGuide) {
+    return <PWADownloadScreen onComplete={handlePWAGuideComplete} />
   }
 
   // Main app with router

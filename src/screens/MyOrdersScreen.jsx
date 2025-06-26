@@ -16,11 +16,11 @@ const mockOrders = [
         bookingId: '012089',
         date: 'Sunday, 11 Aug 2022',
         time: '03.00 - 04.00 PM',
-        carType: { name: 'Pajero Sport 2019', price: 'Rp.75.000' },
-        serviceType: { name: 'Special Service', price: 'Rp.30.000' },
-        tax: 'Rp.5.000',
+        carType: { name: 'Pajero Sport 2019', price: 'SR.75.000' },
+        serviceType: { name: 'Special Service', price: 'SR.30.000' },
+        tax: 'SR.5.000',
         voucher: '50%',
-        totalPrice: 'Rp. 55.000',
+        totalPrice: 'SR. 55.000',
         status: 'Upcoming'
     },
     {
@@ -30,11 +30,11 @@ const mockOrders = [
         bookingId: '011975',
         date: 'Tuesday, 05 Jul 2022',
         time: '10.00 - 11.00 AM',
-        carType: { name: 'Honda Civic', price: 'Rp.50.000' },
-        serviceType: { name: 'Regular', price: 'Rp.20.000' },
-        tax: 'Rp.2.000',
+        carType: { name: 'Honda Civic', price: 'SR.50.000' },
+        serviceType: { name: 'Regular', price: 'SR.20.000' },
+        tax: 'SR.2.000',
         voucher: 'N/A',
-        totalPrice: 'Rp. 72.000',
+        totalPrice: 'SR. 72.000',
         status: 'Completed'
     }
 ];

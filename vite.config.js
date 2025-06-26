@@ -9,13 +9,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}']
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg}']
       },
       manifest: {
-        name: 'Mobile PWA Demo',
-        short_name: 'PWA Demo',
-        description: 'A mobile-responsive Progressive Web App demo',
-        theme_color: '#6366f1',
+        name: 'CarWash Pro',
+        short_name: 'CarWash',
+        description: 'Professional car wash booking app',
+        theme_color: '#5ba6e3',
         background_color: '#ffffff',
         display: 'standalone',
         orientation: 'portrait',
@@ -23,9 +23,20 @@ export default defineConfig({
         start_url: '/',
         icons: [
           {
-            src: 'pwa-icon.svg',
+            src: 'logo.svg',
             sizes: 'any',
-            type: 'image/svg+xml'
+            type: 'image/svg+xml',
+            purpose: 'any maskable'
+          },
+          {
+            src: 'pwa-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ]
       }
